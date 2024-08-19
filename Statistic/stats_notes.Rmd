@@ -1,0 +1,40 @@
+---
+title: 'Stats: notes'
+author: "Luiz Paulo Tavares"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+$$
+\
+  f(x) = \left\{ \begin{array}{ll}
+      2 e^{-2x} & \mbox{ , se $ \; x \geq 0$} \cr
+      0   & \mbox{ , se  $ \; x < 0$}
+    \end{array} \right.
+\
+$$
+
+Para ser f.d.p. a função não deve ter valores negativos e deve integrar 1 em seu domínio
+
+```{r}
+f1 <- function(x){
+    fx <- ifelse(x < 0, 0, 2 * exp(-2 * x))
+    return(fx)
+}
+```
+
+```{r}
+integrate(f1, lower = 0, upper = Inf)
+```
+
+$$
+\begin{eqnarray*}
+p_b & = & P(X > 1) = \int_1^\infty f(x) dx = \int_1^\infty 2\,e^{-2x} dx \\
+p_c & = & P(0,2 < X < 0,8) = \int_{0,2}^{0,8} f(x) dx = \int_{0.2}^{0.8} 2\,e^{-2x} dx \,
+\end{eqnarray*}
+$$
+

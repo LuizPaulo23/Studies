@@ -1,0 +1,26 @@
+---
+title: "Introdução à topologia"
+author: "Luiz Paulo Tavares"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## **Espaços Métricos**
+
+A distância entre dois pontos de $\Re^n$ geralmente é medida pela distância Euclidiana que generaliza a expressão da distância da _Geometria Analítica_ plana ou espacial em coordenadas ortogonais. 
+
+
+\[
+\text{Espaço métrico:} \quad \text{Seja } M \text{ um conjunto e seja } d : M \times M \rightarrow \Re, \text{ uma função que satisfaz às seguintes condições:}
+\]
+
+$$
+d(x,y) > 0 \space se \space x \neq y \space e \space d(x,x) = 0, \forall \space x,y \in M
+$$
+$$
+d(x, y) = d(y,x), \forall \space x,y \in M
+$$
