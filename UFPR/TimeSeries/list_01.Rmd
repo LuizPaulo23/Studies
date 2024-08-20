@@ -1,0 +1,23 @@
+---
+title: "UFPR: Análise de Séries Temporais - Lista 01"
+author: "Luiz Paulo Tavares"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# 1) Defina variável aleatória, processo estocástico e série temporal.
+
+Formalmente, uma **variável aleatória** $X$ é uma função que mapeia o espaço amostral $\Omega$ de um experimento aleatório para o conjunto dos números reais $\mathbb{R}$, ou seja, $X: \Omega \to \mathbb{R}$. Para cada resultado $\omega \in \Omega$, a variável $X$ associa um valor real $X(\omega)$. De forma mais simples, uma variável aleatória é uma função que associa um número real a cada resultado. Por outro lado, **processo estocástico** representa uma coleção de variáveis aleatórias ${X(t)_{t \in T}}$ indexados para um conjunto $T$. Por fim, série temporal é um sequência de observações de uma variável $Y_{t}$ ao longo do tempo $t$. Em outras palavras: uma **série temporal** é uma coleção de valores ${Yt_{t \in T}}$, onde cada $Y_{t}$ é uma realização da variável aleatória $Y$ no tempo $t$
+
+# 2) Defina processo estocástico ergódico e processo estocástico estacionário ( no sentido amplo (fraco) e no sentido estrito (forte)).
+
+Um processo estocástico é ergódico se, e somente se, as propriedades estatísticas (a média, por exemplo) do processo podem ser inferidas a partir de uma realização ao longo do tempo. Ou seja, processo ergódico tem relação com o tamanho da amostra, i.e, com a representatividade amostral. 
+
+# 3) Qual a diferença entre correlação serial e correlação simples? Exemplifique.
