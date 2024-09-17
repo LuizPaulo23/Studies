@@ -1,0 +1,483 @@
+---
+title: "UFPR: Análise de Séries Temporais - Lista 01"
+author: "Luiz Paulo Tavares"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  latex_engine: xelatex
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### 1) Defina variável aleatória, processo estocástico e série temporal.
+
+De forma simples, uma variável aleatória é uma função que associa um número real a cada resultado. Formalmente, uma **variável aleatória** $Z$ é uma função que mapeia o espaço amostral $\Omega$ de um experimento aleatório para o conjunto dos números reais $\mathbb{R}$, ou seja, $Z: \Omega \to \mathbb{R}$. Para cada resultado $\omega \in \Omega$, a variável $Z$ associa um valor real $Z(\omega)$. Por outro lado, **processo estocástico** representa uma coleção de variáveis aleatórias ${Z(t)_{t \in T}}$ indexados para um conjunto $T$. Por fim, série temporal é um sequência de observações de uma variável $Z_{t}$ ao longo do tempo $t$. Em outras palavras: uma **série temporal** é uma coleção de valores ${Z(t)_{t \in T}}$, onde cada $Z_{t}$ é uma realização da variável aleatória $Z$ no tempo $t$. 
+
+### 2) Defina processo estocástico ergódico e processo estocástico estacionário ( no sentido amplo (fraco) e no sentido estrito (forte)).
+
+Um processo estocástico é ergódico se, e somente se, as propriedades estatísticas do processo podem ser inferidas a partir de uma realização ao longo do tempo. Ou seja, processo ergódico tem relação com a representatividade amostral. 
+
+Por sua vez, processo estacionário divide-se em duas tipologias: no sentido amplo (fraco) ou no sentido estrito (forte). Pois bem, em sentido amplo é quando a média e variância são constantes ao longo do tempo e a função de autocovariância $Cov(Z(t), Z(t+h))$ depende apenas do deslocamento h, e não dos tempos absolutos $t$ e $t+h$. Propriedades: 
+
+$$
+\mathbb{E}(Z_t) = \mu
+$$
+
+$$
+\mathbb{E}(Z_{t} - \mu)^2 = \mu^2 < \infty
+$$
+
+$$
+\mathbb{E}[(Z_{t}-\mu)(Z_{t+k} - \mu)] = \gamma k \space \space \forall t \in T
+$$
+O sentido estrito (forte), por outro lado, é quando a distribuição conjunta de qualquer número finito de variáveis aleatórias do processo não depende do tempo. Formalmente: para quaisquer tempos $t_1, t_2, \dots, t_n$ e para qualquer deslocamento $h$, a distribuição conjunta das variáveis $Z(t_1), Z(t_2), \dots, Z(t_n)$ é idêntica à distribuição conjunta das variáveis $Z(t_1 + h), Z(t_2 + h)$, $\dots$, $Z(t_n + h)$. Isso pode ser expresso como:
+
+$$
+(Z(t_1), Z(t_2), \dots, Z(t_n)) \stackrel{d}{=} (Z(t_1 + h), Z(t_2 + h), \dots, Z(t_n + h))
+$$
+
+onde \(\stackrel{d}{=}\) indica igualdade em distribuição.
+
+
+### 3) Qual a diferença entre correlação serial e correlação simples? Exemplifique.
+
+A diferença é a estrutura temporal subjacente na computação da correlação. Na correlação simples, como na correlação de Pearson, por exemplo, há o cálculo de uma simples associação linear entre as variáveis $Z$ e $Y$; por outro lado, na correlação serial (autocorrelação), busca-se computar a correlação entre as observações da série temporal $Z$ ao longo do tempo $t$. 
+
+Formalmente, a correlação de Pearson pode ser expressa como segue: 
+
+$$
+\rho_{Z,Y} = \frac{\sum_{i=1}^{n} (Z_i - \bar{Z})(Y_i - \bar{Y})}{\sqrt{\sum_{i=1}^{n} (Z_i - \bar{Z})^2} \sqrt{\sum_{i=1}^{n} (Y_i - \bar{Y})^2}}
+$$
+Podemos compactar a notação como segue: 
+
+$$
+r = \frac{Cov(Z, Y)}{\sqrt{Var(z) \space \space Var(y)}}
+$$
+
+Ou ainda: 
+
+$$
+r = \frac{Cov(Z, Y)}{\sigma(z) \space \space \sigma(y)}
+$$
+
+Enquanto a autocorrelação amostral de k-ésima ordem:
+
+$$
+\hat{p_{k}} = \frac{\sum_{t=1}^{n-k} (Z_t - \bar{Z})(Z_{t+k} - \bar{Z})}{\sum_{t=1}^{n} (Z_t - \bar{Z})^2}
+$$
+
+### 4) Determine a expressão da função de autocovariância (FACV) de um processo autoregressivo de ordem 3, AR(3)
+
+Pode ser expresso como segue: 
+
+$$
+\gamma_{k} = \phi_{1} \gamma_{k-1} + \phi_{2} \gamma_{k-2} +  \phi_{3} \gamma_{k-3} + \mathbb{E}(a_{t} \omega_{t-k})
+$$
+\newpage
+
+### 5) Determine a expressão da variância de um processo autoregressivo de ordem 3 AR(3)
+
+Dado um processo AR(3):  
+
+$$
+Z_{t} = \phi_{1} Z_{t-1} + \phi_{2} Z_{t-2} + \phi_{3} Z_{t-3} + a_{t}
+$$
+Podemos agora substituir a equação do processo AR(3) na definição de variância: 
+
+$$
+Var(Z_{t}) = \mathbb{E}[Z_t^2]
+$$
+$$
+Z_{t}^2 = (\phi_{1} Z_{t-1} + \phi_{2} Z_{t-2} + \phi_{3} Z_{t-3} + a_{t})^2
+$$
+
+Expandindo os termos quadrados: 
+
+$$
+Z_t^2 = \phi_1^2 Z_{t-1}^2 + \phi_2^2 Z_{t-2}^2 + \phi_3^2 Z_{t-3}^2  
++ 2\phi_1 \phi_2 Z_{t-1} Z_{t-2} + 2\phi_1 \phi_3 Z_{t-1} Z_{t-3} 
++ 2\phi_2 \phi_3 Z_{t-2} Z_{t-3} +a_t^2
+$$
+
+Como $a_{t}$ é um ruído branco: 
+
+$$
+\mathbb{E}[a_t^2] = \sigma_a^2
+$$
+$$
+Var(Z_{t}) = \phi_{1}^2 Var(Z_{t-1}) + \phi_{2}^2 Var(Z_{t-2}) + \phi_{3}^2 Var(Z_{t-3}) + \sigma_{a}^2
+$$
+Usando a propriedade de estacionariedade: 
+
+
+$$
+Var(Z_t) = Var(Z_{t-1}) = Var(Z_{t-2}) = Var(Z_{t-3}) = \gamma(0)
+$$
+Assim temos: 
+
+$$
+\gamma(0) = \phi_{1}^2 \gamma(0) +  \phi_{2}^2 \gamma(0) +  \phi_{3}^2 \gamma(0) + \sigma_{a}^2 
+$$
+Reorganizando: 
+
+$$
+\gamma(0) - \phi_{1}^2 \gamma(0) -  \phi_{2}^2 \gamma(0) -  \phi_{3}^2 \gamma(0) = \sigma_{a}^2 
+$$
+
+
+Colocando $\gamma(0)$ em evidência: 
+
+$$
+\gamma(0)(1-\phi_{1}^2 - \phi_{2}^2 - \phi_{3}^2) = \sigma_{a}^2
+$$
+Resolvendo, temos a variância do processo AR(3): 
+
+$$
+Var(Z_{t}) = \gamma(0) = \frac{\sigma_{a}^2}{1-\phi_{1}^2 - \phi_{2}^2 - \phi_{3}^2}
+$$
+
+\newpage
+
+### 6) Determine a expressões da FAC, da variância das estruturas indicadas a seguir, em função dos parâmetros do modelo de cada estrutura.
+
+
+#### AR(1)
+
+$$
+Z_{t} = \phi_{1} Z_{t-1} + a_{t}
+$$
+Expandindo usando a forma geral das equações de Yule-Walker. Para AR(1): 
+
+$$
+\rho = \phi_{1} \rho_{k-1}
+$$
+No lag k = 1: 
+
+$$
+\rho_{1} = \phi_{1}
+$$
+No lag k = 2, usando a relação recursiva: 
+
+$$
+\rho_{2} = \phi_{1} \rho_{1} = \phi_{1} \phi_{1} = \phi_{1}^2
+$$
+
+Para k = 3: 
+
+$$
+\rho_{3} = \phi_{1} \rho_{2} = \phi_{1} \phi_{1}^2 = \phi_{1}^3
+$$
+
+Forma geral para o AR(1): 
+
+$$
+\rho_{k} = \phi_{1}^k
+$$
+
+A variância, por sua vez: 
+
+$$
+\gamma_{0} = \sigma_{\omega}^2 = \frac{\sigma_{a}^2}{1 - \phi_{1} \rho_{1}}
+$$
+
+#### AR(2)
+
+De forma semelhante para AR(2): 
+
+$$
+\rho_{k} = \phi_{1} \rho_{k-1} + \phi_{2} \rho_{k-2}
+$$
+A variância: 
+
+$$
+\gamma_{0} = \sigma_{\omega}^2 = \frac{\sigma_{a}^2}{1 - \phi_{1} \rho_{1} - \phi_{2} \rho_{2}}
+$$
+
+
+#### AR(3)
+
+$$
+\rho_{k} = \phi_{1} \rho_{k-1} + \phi_{2} \rho_{k-2} + \phi_{3} \rho_{k-3}
+$$
+$$
+\gamma_{0} = \sigma_{\omega}^2 = \frac{\sigma_{a}^2}{1 - \phi_{1} \rho_{1} - \phi_{2} \rho_{2} - \phi_{3} \rho_{3}}
+$$
+
+
+\newpage
+
+#### 7) Calcule: as séries diferenciadas seguintes:
+
+a) $\omega \nabla Z_{t}$
+
+b) $\omega \nabla^2 Z_{t}$
+
+A resolução das letras A e B podem ser visualizadas na tabela a seguir: 
+
+```{r}
+library(pacman)
+pacman::p_load(tidyverse)
+
+number_07 <- data.frame(t = c(1:15), 
+                        z = c(47,44,50,62,68,64,80,71,44,38,23,55,56,64,50)) %>% 
+             dplyr::mutate(mean = mean(z), 
+                           "diff_1" = c(NA, diff(z)), 
+                           "diff_2" = c(NA, NA, diff(z, differences = 2))) %>% 
+                    mutate(across(everything(), ~ifelse(is.na(.), "-", .)))
+
+knitr::kable(number_07)
+
+
+```
+
+c) A estimativa da autocovariância $\gamma_{k}$ quando k = 1: 
+
+Autocovariância: 
+
+$$
+\hat{\gamma}k = \frac{1}{n} \sum_{t = 1}^n (z_{t} -  \bar{z}) (z_{t+k} -  \bar{z})
+$$
+
+
+```{r}
+
+autocov = (47 - 54.44) * (44 - 54.44) + (44 - 54.44) * (50 - 54.44) +
+          (50 - 54.44) * (62 - 54.44) + (62 - 54.44) * (68 - 54.44) +
+          (68 - 54.44) * (64 - 54.44) + (64 - 54.44) * (80 - 54.44) + 
+          (80 - 54.44) * (71 - 54.44) + (71 - 54.44) * (44 - 54.44) +
+          (44 - 54.44) * (38 - 54.44) + (38 - 54.44) * (23 - 54.44) +
+          (23 - 54.44) * (55 - 54.44) + (55 - 54.44) * (56 - 54.44) + 
+          (56 - 54.44) * (64 - 54.44) + (64 - 54.44) * (50 - 54.44)
+
+autocov = autocov/14
+print(autocov)
+
+```
+
+d) a estimativa da autocorrelação  $\gamma_{k}$ quando k = 1.
+
+```{r}
+autocor = (autocov/var(number_07$z))
+print(autocor)
+
+acf(number_07$z, lag.max = 2, main = "Autocorrelação com k = 1")
+
+```
+
+
+#### 8) Para os dados da série A do livro B&amp;J (final do livro) pede-se:
+
+a) a série diferenciada uma vez ;
+
+```{r}
+
+data_raw = readxl::read_excel("db_exercicio.xlsx") %>% 
+           janitor::clean_names()
+
+data_trans <- data_raw %>% 
+              dplyr::mutate(diff = c(NA, diff(z)))
+
+knitr::kable(data_trans)
+
+```
+
+b) faça o gráfico da série original e outro da série diferenciada uma vez:
+
+```{r}
+ggplot2::ggplot(data = data_trans)+
+         aes(x = t, y = z)+
+         geom_line()+
+         labs(title = "Original: Série A do livro B&J")+
+         theme_bw()
+         
+data_clean = data_trans %>% na.omit()
+
+  ggplot2::ggplot(data = data_clean)+
+         aes(x = t, y = diff)+
+         geom_line()+
+         labs(title = "Diferenciada uma vez: Série A do livro B&J")+
+         theme_bw()         
+```
+c) calcule a FAC da série original e a FAC da série diferenciada (bastam 10 lags);
+
+```{r}
+acf(data_trans$z, 
+    lag.max = 10, main = "Série original")
+
+
+acf(data_clean$diff, 
+    lag.max = 10, main = "Série Diferenciada uma vez")
+```
+
+
+\newpage
+
+#### 9) Dada a série temporal a seguir pede-se:
+
+a) a série diferenciada uma vez (d=1);
+
+```{r}
+
+number_09 = data.frame(t = 1:5, 
+                       z = c(12,14,16,14,18)) %>% 
+            dplyr::mutate(diff = c(NA, diff(z)))
+
+knitr::kable(number_09)
+
+```
+
+b) A média e a variância 
+
+```{r}
+
+cat("A média de Zt é:", mean(number_09$z))
+cat("A Variância de Zt é:", var(number_09$z))
+
+```
+Manualmente, podemos calcular como segue: 
+
+$$
+\bar{Z} = \frac{ Z_{1} + Z_{2} + Z_{3} + ...+ Z_{n}}{n} = \frac{\sum_{i = 1}^n Z_{i}}{n}
+$$
+
+```{r}
+média = (12 + 14 + 16 + 14 + 18)/5
+print(média)
+
+```
+Variância: 
+
+$$
+\hat{\sigma_{z}}^2 = \hat{\gamma_{0}} = \frac{1}{n} \sum_{t = 1}^n (z_{t} - \bar{z})^2
+$$
+
+```{r}
+var = (12 - 14.8)^2 + (14 - 14.8)^2 + (16 - 14.8)^2+ (14 - 14.8)^2 + (18 - 14.8)^2
+
+var = var/5
+print(var)
+```
+
+c) o valor da autocovariância de defasagem 1 (lag) k = 1 da série original
+
+$$
+\hat{\gamma}k = \frac{1}{n} \sum_{t = 1}^n (z_{t} -  \bar{z}) (z_{t+k} -  \bar{z})
+$$
+
+```{r}
+
+auto = (12 - 14.8) * (14 - 14.8) + (14 - 14.8) * (16 - 14.8)+
+       (16 - 14.8) * (14 - 14.8) + (14 - 14.8) * (18 - 14.8)
+
+auto = auto/5
+print(auto)
+```
+
+
+d) o valor da autocorrelação de defasagem (lag) k=1 da série original
+
+Autocorrelação: 
+
+$$
+\hat{\rho}k = \frac{\frac{1}{n} \sum_{t = 1}^n (z_{t} -  \bar{z}) (z_{t+k} -  \bar{z})}{\sum_{t = 1}^n(z_{t} - \bar{z})^2} = \frac{\gamma k}{\gamma 0}
+$$
+
+É apenas dividir: 
+
+```{r}
+autocorrelacao = (auto/var)
+print(autocorrelacao)
+```
+10) Escreva as equações de Yule-Walker na forma matricial com as estimativas dos coeficientes de autocorrelação
+
+
+Primeiro, considere uma série temporal estacionária ${X_t}$ e a função de autocorrelação $\rho(k)$, onde $k$ representa o número de defasagens (lags). A autocorrelação para uma defasagem $k$ é dada por:
+
+$$
+\rho(k) = \frac{\text{Cov}(Z_t, Z_{t-k})}{\text{Var}(Z_t)}
+$$
+
+onde $\text{Cov}(X_t, X_{t-k})$ é a covariância entre $X_t$ e $X_{t-k}$, e $\text{Var}(X_t)$ é a variância de $X_t$.
+
+## Modelo AR(p)
+
+Um modelo autoregressivo de ordem $p$, denotado por AR(p), é dado por:
+
+$$
+X_t = \phi_1 Z_{t-1} + \phi_2 Z_{t-2} + \dots + \phi_p Z_{t-p} + \epsilon_t
+$$
+
+onde \(\phi_1, \phi_2, \dots, \phi_p\) são os coeficientes autoregressivos, e \(\epsilon_t\) é um termo de erro branco com média zero e variância constante.
+
+## Equações de Yule-Walker
+
+As equações de Yule-Walker são um conjunto de \(p\) equações que relacionam as autocorrelações \(\rho(k)\) com os coeficientes autoregressivos \(\phi_k\). Essas equações são dadas por:
+
+$$
+\begin{aligned}
+\rho(1) &= \phi_1 \rho(0) + \phi_2 \rho(1) + \dots + \phi_p \rho(p-1) \\
+\rho(2) &= \phi_1 \rho(1) + \phi_2 \rho(0) + \dots + \phi_p \rho(p-2) \\
+&\vdots \\
+\rho(p) &= \phi_1 \rho(p-1) + \phi_2 \rho(p-2) + \dots + \phi_p \rho(0)
+\end{aligned}
+$$
+
+## Forma Matricial das Equações de Yule-Walker
+
+Essas equações podem ser escritas na forma matricial:
+
+$$
+\begin{pmatrix}
+\rho(0) & \rho(1) & \dots & \rho(p-1) \\
+\rho(1) & \rho(0) & \dots & \rho(p-2) \\
+\vdots & \vdots & \ddots & \vdots \\
+\rho(p-1) & \rho(p-2) & \dots & \rho(0) \\
+\end{pmatrix}
+\begin{pmatrix}
+\phi_1 \\
+\phi_2 \\
+\vdots \\
+\phi_p \\
+\end{pmatrix}
+=
+\begin{pmatrix}
+\rho(1) \\
+\rho(2) \\
+\vdots \\
+\rho(p) \\
+\end{pmatrix}
+$$
+
+## Solução das Equações
+
+Para encontrar os coeficientes \(\boldsymbol{\phi} = (\phi_1, \phi_2, \dots, \phi_p)^T\), resolvemos o sistema linear:
+
+$$
+\boldsymbol{\phi} = \mathbf{R}^{-1} \mathbf{r}
+$$
+
+onde \(\mathbf{R}^{-1}\) é a inversa da matriz de autocorrelações \(\mathbf{R}\).
+
+## Exemplo para AR(2)
+
+Para um modelo AR(2), as equações de Yule-Walker se tornam:
+
+$$
+\begin{pmatrix}
+\rho(0) & \rho(1) \\
+\rho(1) & \rho(0) \\
+\end{pmatrix}
+\begin{pmatrix}
+\phi_1 \\
+\phi_2 \\
+\end{pmatrix}
+=
+\begin{pmatrix}
+\rho(1) \\
+\rho(2) \\
+\end{pmatrix}
+$$

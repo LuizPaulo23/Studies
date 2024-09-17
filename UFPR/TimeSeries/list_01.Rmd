@@ -4,6 +4,7 @@ author: "Luiz Paulo Tavares"
 date: "`r Sys.Date()`"
 output:
   pdf_document: default
+  latex_engine: xelatex
   html_document:
     df_print: paged
 ---
@@ -21,3 +22,17 @@ Formalmente, uma **variável aleatória** $X$ é uma função que mapeia o espa�
 Um processo estocástico é ergódico se, e somente se, as propriedades estatísticas (a média, por exemplo) do processo podem ser inferidas a partir de uma realização ao longo do tempo. Ou seja, processo ergódico tem relação com o tamanho da amostra, i.e, com a representatividade amostral. 
 
 # 3) Qual a diferença entre correlação serial e correlação simples? Exemplifique.
+
+A diferença é a estrutural temporal presente em ambas as correlaçẽs. Na correlação simples, como na correlação de Pearson, há o cálculo de uma simples associação linear entre as variáveis; por outro lado, na correlação serial (autocorrelação), há a correlação entre as observações da série temporal. 
+
+Formalmente temos que a correlação de Pearson é dada como segue: 
+
+$$
+\rho_{X,Y} = \frac{\sum_{i=1}^{n} (X_i - \bar{X})(Y_i - \bar{Y})}{\sqrt{\sum_{i=1}^{n} (X_i - \bar{X})^2} \sqrt{\sum_{i=1}^{n} (Y_i - \bar{Y})^2}}
+$$
+enquanto a autocorrelação: 
+
+$$
+\text{ACF}(k) = \frac{\sum_{i=1}^{n-k} (X_i - \bar{X})(X_{i+k} - \bar{X})}{\sum_{i=1}^{n} (X_i - \bar{X})^2}
+$$
+
